@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: 'alumnusbpay'
+      POSTGRES_PASSWORD: 'code4vzla'
+    ports:
+    - "11000:5432"

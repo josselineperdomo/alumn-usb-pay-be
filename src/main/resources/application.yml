@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgres://localhost:5432/alumnusbpay?autoReconnect=true&useSSL=false?createDatabaseIfNotExist=true
+    username: postgres
+    password:
+    driver-class-name: org.postgresql.Driver
+
+server.port: 9000
+server.servlet.context-path: /api
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto: update
+
+## Hibernate Logging
+logging.level.org.hibernate.SQL: DEBUG
+
+# Initialize the datasource with available DDL and DML scripts
+spring.datasource.initialization-mode: always
+
+## Jackson Properties
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false
+spring.jackson.time-zone: UTC
