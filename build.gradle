@@ -22,7 +22,10 @@ dependencies {
     compile 'org.springframework.security:spring-security-jwt'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.postgresql:postgresql'
+    compile 'org.flywaydb:flyway-core'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     compile 'com.fasterxml.jackson.core:jackson-databind'
     compile 'com.fasterxml.jackson.core:jackson-annotations'
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
 }
