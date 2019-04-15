@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CodeCredentialsResponse {
+public class CodeCredentials {
 
     @JsonProperty("access_token")
     private String accessToken;

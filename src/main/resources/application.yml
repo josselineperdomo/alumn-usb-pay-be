@@ -29,5 +29,6 @@ spring.jackson.time-zone: UTC
 uphold.client-id: 9dcdd17746c42567a277973a31702503740177b0
 uphold.client-secret: 4369ef2fdc506c408bc34e2ab788bb5450755050
 uphold.base-url: https://api-sandbox.uphold.com
+uphold.api-version: v0
 
 logging.level.org.alumnusb.easypay: DEBUG
