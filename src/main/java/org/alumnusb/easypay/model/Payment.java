@@ -15,11 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.time.Instant;
 
 
@@ -30,17 +25,17 @@ import java.time.Instant;
 @Entity
 @Table(name = "payment")
 public class Payment {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "beneficiary_id")
     private Beneficiary beneficiary;
 
-    @Positive
-    @Column
-    private float amountPaid;
+    @Column(name = "amount_paid", nullable = false)
+    private Float amount;
 
     @Column(name = "paid_at", nullable = false, updatable = false)
     @CreatedDate

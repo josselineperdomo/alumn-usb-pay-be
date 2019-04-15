@@ -34,26 +34,14 @@ import java.util.Set;
 @Entity
 @Table(name = "payment_list")
 public class PaymentList extends AuditModel {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private long id;
+    private Long id;
 
-    @NotNull @NotBlank
     @Column(unique = true)
     private String name;
 
-    @NotBlank
     @Column(columnDefinition = "text")
     private String description;
-
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "payment_list_beneficiary",
-            joinColumns = { @JoinColumn(name = "payment_list_id") },
-            inverseJoinColumns = { @JoinColumn(name = "beneficiary_id") })
-    private Set<Beneficiary> tags = new HashSet<>();
-
 }

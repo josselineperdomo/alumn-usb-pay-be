@@ -7,16 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -25,22 +19,20 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "beneficiary")
 public class Beneficiary extends AuditModel {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private long id;
+    private Long id;
 
-    @Email @NotBlank
-    @Column
+    @Column(unique = true)
     private String upholdEmail;
 
-    @Email @NotNull @NotBlank
-    @Column
+    @Column(unique = true)
     private String upholdUsername;
 
     @Column
     private Boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "type")
+    @Column(name = "type")
     private BeneficiaryType type;
 }

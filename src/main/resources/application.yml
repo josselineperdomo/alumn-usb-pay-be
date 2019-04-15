@@ -8,6 +8,9 @@ spring:
 server.port: 9000
 server.servlet.context-path: /api
 
+spring.application.name: easypay
+debug-errors: true
+
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: true
@@ -22,3 +25,9 @@ spring.datasource.initialization-mode: always
 ## Jackson Properties
 spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false
 spring.jackson.time-zone: UTC
+
+uphold.client-id: 9dcdd17746c42567a277973a31702503740177b0
+uphold.client-secret: 4369ef2fdc506c408bc34e2ab788bb5450755050
+uphold.base-url: https://api-sandbox.uphold.com
+
+logging.level.org.alumnusb.easypay: DEBUG

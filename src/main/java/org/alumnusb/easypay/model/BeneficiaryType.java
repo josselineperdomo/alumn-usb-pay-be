@@ -26,19 +26,17 @@ import javax.validation.constraints.Positive;
 @Entity
 @Table(name = "type")
 public class BeneficiaryType extends AuditModel {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private long id;
+    private Long id;
 
-    @NotNull @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @NotBlank
     @Column(columnDefinition = "text")
     private String description;
 
-    @Positive
-    @Column
-    private float defaultAmountToPay;
+    @Column(name = "default_amount_to_pay", nullable = false)
+    private Float defaultAmount;
 }
