@@ -3,18 +3,14 @@ package org.alumnusb.easypay.service;
 import lombok.extern.slf4j.Slf4j;
 import org.alumnusb.easypay.exception.ResourceConflictException;
 import org.alumnusb.easypay.model.Beneficiary;
-import org.alumnusb.easypay.model.BeneficiaryType;
 import org.alumnusb.easypay.repository.BeneficiaryRepository;
 import org.alumnusb.easypay.repository.BeneficiaryTypeRepository;
 import org.alumnusb.easypay.request.CreateBeneficiary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Slf4j
