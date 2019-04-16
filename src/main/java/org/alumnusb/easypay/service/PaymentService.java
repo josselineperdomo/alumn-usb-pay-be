@@ -24,18 +24,16 @@ public class PaymentService {
         String beneficiary = Optional.ofNullable(request.getBeneficiaryUsername())
                 .orElse(request.getBeneficiaryEmail());
 
-
-
         if(beneficiary == null){
             throw new IllegalArgumentException("Username or email of the beneficiary should be provided");
         }
-        return Payment.builder()
+        return paymentRepository.save(Payment.builder()
                 .beneficiary(
                         Beneficiary.builder()
                                 .upholdEmail(request.getBeneficiaryEmail())
                                 .upholdUsername(request.getBeneficiaryUsername())
                         .build()
-                ).build();
+                ).build());
     }
 
     public void callbackFromOAuth(String code, String state){
