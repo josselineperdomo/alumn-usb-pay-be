@@ -5,8 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.alumnusb.easypay.model.AuditModel;
+import org.alumnusb.easypay.model.converter.HiddenAttributeConverter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -19,12 +22,14 @@ import javax.persistence.Table;
 @Table(name = "uphold_credentials")
 public class UpholdCredentials extends AuditModel {
     @Id
-    @Column
+    @Column(name = "credentials_id")
     private Short credentialsId;
 
-    @Column
+    @Column(name = "access_token")
+    @Convert(converter = HiddenAttributeConverter.class)
     private String accessToken;
 
-    @Column
+    @Column(name = "refresh_token")
+    @Convert(converter = HiddenAttributeConverter.class)
     private String refreshToken;
 }

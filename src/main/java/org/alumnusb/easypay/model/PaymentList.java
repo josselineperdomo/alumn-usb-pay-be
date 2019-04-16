@@ -3,6 +3,7 @@ package org.alumnusb.easypay.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -33,15 +34,16 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "payment_list")
+@EqualsAndHashCode(callSuper = true)
 public class PaymentList extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
-    @Column(columnDefinition = "text")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 }
