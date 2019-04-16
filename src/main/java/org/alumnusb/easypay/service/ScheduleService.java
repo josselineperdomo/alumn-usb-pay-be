@@ -8,9 +8,9 @@ import org.alumnusb.easypay.repository.ScheduleRepository;
 import org.alumnusb.easypay.request.CreateSchedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.NoSuchElementException;
 
 @Service
@@ -43,7 +43,7 @@ public class ScheduleService {
     }
 
     public Page<Schedule> getAll(Pageable pageable) {
-        return scheduleRepository.getAll(pageable);
+        return scheduleRepository.findAll(pageable);
     }
 
 }

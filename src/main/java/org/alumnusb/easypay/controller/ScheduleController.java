@@ -5,11 +5,11 @@ import org.alumnusb.easypay.model.Schedule;
 import org.alumnusb.easypay.request.CreateSchedule;
 import org.alumnusb.easypay.service.ScheduleService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 
 @RequiredArgsConstructor
 @RestController
