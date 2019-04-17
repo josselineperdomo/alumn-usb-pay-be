@@ -1,9 +1,8 @@
 package org.alumnusb.easypay.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,30 +18,29 @@ import java.time.Instant;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "scheduled_payment")
+@EqualsAndHashCode(callSuper = true)
 public class Schedule extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "payment_list_id")
     private PaymentList paymentList;
 
-    @Column
+    @Column(name = "periodicity")
     private String periodicity;
 
-    @Column
+    @Column(name = "active")
     private Boolean active;
 
-    @Column
+    @Column(name = "next_payment_at")
     private Instant nextPaymentAt;
 
-    @Column
+    @Column(name = "last_executed_at")
     private Instant lastExecutedAt;
 
     @Column(columnDefinition = "text")
