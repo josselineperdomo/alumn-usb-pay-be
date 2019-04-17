@@ -1,9 +1,7 @@
 package org.alumnusb.easypay.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.alumnusb.easypay.model.constant.TransactionStatus;
 import org.alumnusb.easypay.model.converter.HiddenAttributeConverter;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,8 +23,6 @@ import java.time.Instant;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "payment")
 public class Payment {

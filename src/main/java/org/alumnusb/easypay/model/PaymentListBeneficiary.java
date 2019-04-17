@@ -1,10 +1,8 @@
 package org.alumnusb.easypay.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.alumnusb.easypay.model.constant.TransactionStatus;
 
 import javax.persistence.Column;
@@ -19,8 +17,6 @@ import javax.persistence.Table;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "payment_list_beneficiary")
 @EqualsAndHashCode(callSuper = true)
