@@ -44,4 +44,7 @@ public class PaymentList extends AuditModel {
 
     @Column(columnDefinition = "text")
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PaymentListBeneficiary> paymentListBeneficiaries;
 }
