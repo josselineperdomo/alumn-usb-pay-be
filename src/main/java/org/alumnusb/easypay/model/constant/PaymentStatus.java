@@ -1,6 +1,6 @@
 package org.alumnusb.easypay.model.constant;
 
-public enum TransactionStatus {
+public enum PaymentStatus {
     COMPLETED,
     PENDING,
     CANCELLED,

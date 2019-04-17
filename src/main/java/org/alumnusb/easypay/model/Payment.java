@@ -2,7 +2,7 @@ package org.alumnusb.easypay.model;
 
 import lombok.Builder;
 import lombok.Data;
-import org.alumnusb.easypay.model.constant.TransactionStatus;
+import org.alumnusb.easypay.model.constant.PaymentStatus;
 import org.alumnusb.easypay.model.converter.HiddenAttributeConverter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -48,5 +48,5 @@ public class Payment {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
+    private PaymentStatus status;
 }

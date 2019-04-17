@@ -3,7 +3,7 @@ package org.alumnusb.easypay.model;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.alumnusb.easypay.model.constant.TransactionStatus;
+import org.alumnusb.easypay.model.constant.PaymentStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,5 +36,5 @@ public class PaymentListBeneficiary extends AuditModel {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
+    private PaymentStatus status;
 }
