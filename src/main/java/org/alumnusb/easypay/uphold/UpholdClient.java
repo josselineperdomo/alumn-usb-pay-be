@@ -1,6 +1,8 @@
 package org.alumnusb.easypay.uphold;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alumnusb.easypay.model.Payment;
+import org.alumnusb.easypay.request.CreatePayment;
 import org.alumnusb.easypay.uphold.dto.UpholdCard;
 import org.alumnusb.easypay.uphold.dto.UpholdCredentials;
 import org.alumnusb.easypay.uphold.model.UpholdCredentialsEntity;
@@ -25,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -40,6 +43,12 @@ public class UpholdClient {
     @Value("${uphold.client-secret}")
     private String clientSecret;
 
+    @Value("${uphold.base-url}")
+    private String baseUrl;
+
+    @Value("${uphold.api-version}")
+    private String apiVersion;
+
     private RestTemplate client;
 
     private UpholdCredentialsRepository credentialsRepository;
@@ -54,12 +63,22 @@ public class UpholdClient {
         this.credentialsRepository = repository;
     }
 
+    private String getCardsPath() {
+        return baseUrl + "/"+ apiVersion + UpholdConstants.CARDS_PATH;
+    }
+
+    private String getTransactionsByCardPath(String cardId) {
+        return String.format("%s/%s%s/%s/transactions", baseUrl, apiVersion, UpholdConstants.CARDS_PATH, cardId);
+    }
+
+    private String getAuthPath() {
+        return baseUrl + UpholdConstants.AUTH_PATH;
+    }
+
     public void saveCredentials(String code, String state) {
         MultiValueMap<String, String> payload = new LinkedMultiValueMap<>();
         payload.add("code", code);
         payload.add("grant_type", UpholdConstants.AUTH_GRANT_TYPE);
-
-        // TODO: adding some validation related to state
 
         UpholdCredentials values = Objects.requireNonNull(this.getCredentials(payload));
         UpholdCredentialsEntity credentials = UpholdCredentialsEntity.builder()
@@ -89,7 +108,7 @@ public class UpholdClient {
         UpholdCredentialsEntity credentials = credentialsRepository.findById(UpholdConstants.CREDENTIALS_ID)
                 .orElseThrow(() -> new NoSuchElementException("Credentials not found"));
 
-        RequestEntity<Void> request = RequestEntity.get(URI.create(UpholdConstants.getCardsPath()))
+        RequestEntity<Void> request = RequestEntity.get(URI.create(this.getCardsPath()))
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + credentials.getAccessToken())
                 .header("User-Agent", UpholdConstants.USER_AGENT)
@@ -110,13 +129,13 @@ public class UpholdClient {
                 .orElseThrow(() -> new NoSuchElementException("Credentials not found"));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBearerAuth(credentials.getAccessToken());
         headers.set("User-Agent", UpholdConstants.USER_AGENT);
 
         HttpEntity httpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<UpholdCard> response = client.exchange( UpholdConstants.getCardsPath()+ "/{cardId}",
+        ResponseEntity<UpholdCard> response = client.exchange( this.getCardsPath()+ "/{cardId}",
                 HttpMethod.GET, httpEntity, UpholdCard.class, cardId);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
@@ -124,6 +143,22 @@ public class UpholdClient {
             throw new IllegalStateException("Error getting cards information from Uphold");
         }
         return response.getBody();
+    }
+
+    public Payment createTransaction(String user, Float amount, String upholdCardId) {
+        UpholdCredentialsEntity credentials = credentialsRepository.findById(UpholdConstants.CREDENTIALS_ID)
+                .orElseThrow(() -> new NoSuchElementException("Credentials not found"));
+
+        RequestEntity<Void> request = RequestEntity.get(URI.create(this.getTransactionsByCardPath(upholdCardId)))
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + credentials.getAccessToken())
+                .header("User-Agent", UpholdConstants.USER_AGENT)
+                .build();
+
+        ResponseEntity<Set<UpholdCard>> response =  client.exchange(request,
+                new ParameterizedTypeReference<Set<UpholdCard>>() {});
+
+        return Payment.builder().build();
     }
 
     private <T> UpholdCredentials getCredentials(T body) {
@@ -135,7 +170,7 @@ public class UpholdClient {
         HttpEntity<T> httpEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<UpholdCredentials> response =  client.postForEntity(
-                UpholdConstants.getAuthPath(),
+                this.getAuthPath(),
                 httpEntity,
                 UpholdCredentials.class
         );
