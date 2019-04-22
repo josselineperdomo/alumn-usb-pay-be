@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "uphold_credentials")
 @EqualsAndHashCode(callSuper = true)
-public class UpholdCredentials extends AuditModel {
+public class UpholdCredentialsEntity extends AuditModel {
     @Id
     @Column(name = "credentials_id")
     private Short credentialsId;

@@ -10,14 +10,17 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 
 @Slf4j
+@Converter
 public class HiddenAttributeConverter implements AttributeConverter<String, String> {
 
     private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
-    private static final byte[] KEY = "SurvivorsSuperSecretKey".getBytes();
+    private static final byte[] KEY = "SurvivorsSuperSecretKey!".getBytes();
 
     @Override
     public String convertToDatabaseColumn(String attribute) {
@@ -30,7 +33,7 @@ public class HiddenAttributeConverter implements AttributeConverter<String, Stri
                 | IllegalBlockSizeException | BadPaddingException e) {
             log.error("Error encrypting value");
             log.error(e.getMessage());
-            throw new IllegalStateException("Error storing data");
+            throw new IllegalStateException("Error storing data", e);
         }
     }
 
@@ -40,12 +43,12 @@ public class HiddenAttributeConverter implements AttributeConverter<String, Stri
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return Base64.encodeBytes(cipher.doFinal(data.getBytes()));
+            return new String(cipher.doFinal(Base64.decode(data)));
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
                 | IllegalBlockSizeException | BadPaddingException e) {
             log.error("Error decrypting value");
             log.error(e.getMessage());
-            throw new IllegalStateException("Error retrieving data");
+            throw new IllegalStateException("Error retrieving data", e);
         }
     }
 }
