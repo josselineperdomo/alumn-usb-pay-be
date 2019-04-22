@@ -38,18 +38,19 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
         log.debug("Status text  : {}", response.getStatusText());
         log.debug("Headers      : {}", response.getHeaders());
         try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), "UTF-8"));
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                inputStringBuilder.append(line);
-                inputStringBuilder.append('\n');
-                line = bufferedReader.readLine();
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), "UTF-8"))) {
+                String line = bufferedReader.readLine();
+                while (line != null) {
+                    inputStringBuilder.append(line);
+                    inputStringBuilder.append('\n');
+                    line = bufferedReader.readLine();
+                }
+                log.debug("Response body: {}", inputStringBuilder.toString());
             }
-            log.debug("Response body: {}", inputStringBuilder.toString());
-        } catch (IOException ex) {}
+        } catch (IOException | IllegalArgumentException ignored) {
+
+        }
         log.debug("=======================response end=================================================");
-
-
     }
 
 }

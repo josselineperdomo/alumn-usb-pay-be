@@ -1,9 +1,6 @@
 package org.alumnusb.easypay.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,13 +18,14 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "payment_list")
+@EqualsAndHashCode(callSuper = true)
 public class PaymentList extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(columnDefinition = "text")

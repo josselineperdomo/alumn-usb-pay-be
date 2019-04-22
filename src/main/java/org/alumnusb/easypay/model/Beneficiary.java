@@ -1,9 +1,8 @@
 package org.alumnusb.easypay.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
 
+
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "beneficiary")
+@EqualsAndHashCode(callSuper = true)
 public class Beneficiary extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
